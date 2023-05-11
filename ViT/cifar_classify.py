@@ -86,6 +86,10 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, NUM_EPOCHS)
 ##### Training
 
 def train(n_epochs):
+    vit.train()
+    train_loss = 0
+    correct = 0
+    total = 0
     for epoch in range(n_epochs):  # loop over the dataset multiple times
         running_loss = 0.0
         for batch_idx, (inputs, targets) in enumerate(trainloader, 0):
