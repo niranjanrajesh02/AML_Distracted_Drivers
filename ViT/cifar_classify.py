@@ -14,7 +14,7 @@ import csv
 from model2 import ViT
 from utils import progress_bar
 
-NUM_EPOCHS = 1
+NUM_EPOCHS = 2
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print("Running on", device)
@@ -133,15 +133,15 @@ def test(epoch):
         print('Saving..')
         state = {"model": vit.state_dict(),
               "optimizer": optimizer.state_dict()}
-        if not os.path.isdir('/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/checkpoint'):
+        if not os.path.isdir('/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/checkpoint'):
             os.mkdir('checkpoint')
-        torch.save(state, './home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/checkpoint'+'vit'+'-ckpt.t7')
+        torch.save(state, './home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/checkpoint'+'vit'+'-ckpt.t7')
         best_acc = acc
     
-    os.makedirs("/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/log", exist_ok=True)
+    os.makedirs("/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/log", exist_ok=True)
     content = time.ctime() + ' ' + f'Epoch {epoch}, lr: {optimizer.param_groups[0]["lr"]:.7f}, val loss: {test_loss:.5f}, acc: {(acc):.5f}'
     print(content)
-    with open(f'/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/log/log_vit.txt', 'a') as appender:
+    with open(f'/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/log/log_vit.txt', 'a') as appender:
         appender.write(content + "\n")
     return test_loss, acc
 
@@ -166,7 +166,7 @@ for epoch in range(NUM_EPOCHS):
     
 
     # Write out csv..
-    with open(f'/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/log/log_vit.csv', 'w') as f:
+    with open(f'/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/log/log_vit.csv', 'w') as f:
         writer = csv.writer(f, lineterminator='\n')
         writer.writerow(list_loss) 
         writer.writerow(list_acc) 
