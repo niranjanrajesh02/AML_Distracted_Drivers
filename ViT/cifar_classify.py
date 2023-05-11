@@ -134,7 +134,7 @@ def test(epoch):
         state = {"model": vit.state_dict(),
               "optimizer": optimizer.state_dict()}
         if not os.path.isdir('/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/checkpoint'):
-            os.mkdir('checkpoint')
+            os.mkdir('/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/checkpoint')
         torch.save(state, './home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/checkpoint/'+'vit'+'-ckpt.t7')
         best_acc = acc
     
