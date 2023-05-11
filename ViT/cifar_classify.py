@@ -38,14 +38,14 @@ batch_size = 32
 trainset = torchvision.datasets.CIFAR10(root='/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/data', train=True,
                                         download=False, transform=transform_train)
 
-trainset = torch.utils.data.Subset(trainset, range(0,100))
+trainset = torch.utils.data.Subset(trainset, range(0,10000))
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
                                           shuffle=True)
 
 testset = torchvision.datasets.CIFAR10(root='/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/data', train=False,
                                        download=False, transform=transform_test)
 
-testset = torch.utils.data.Subset(testset, range(0,10))                                      
+testset = torch.utils.data.Subset(testset, range(0,1000))                                      
 testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
                                          shuffle=False)
 
@@ -90,26 +90,25 @@ def train(n_epochs):
     train_loss = 0
     correct = 0
     total = 0
-    for epoch in range(n_epochs):  # loop over the dataset multiple times
-        running_loss = 0.0
-        for batch_idx, (inputs, targets) in enumerate(trainloader, 0):
-            # get the inputs; data is a list of [inputs, labels]
-            inputs, labels = inputs.to(device), targets.to(device)
-            outputs = vit(inputs)
-            loss = criterion(outputs, targets)
-            loss.backward()
-            optimizer.step()
-            optimizer.zero_grad()
+    for batch_idx, (inputs, targets) in enumerate(trainloader, 0):
+        # get the inputs; data is a list of [inputs, labels]
+        inputs, labels = inputs.to(device), targets.to(device)
+        outputs = vit(inputs)
+        loss = criterion(outputs, targets)
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
 
-            train_loss += loss.item()
-            _, predicted = outputs.max(1)
-            total += targets.size(0)
-            correct += predicted.eq(targets).sum().item()
+        train_loss += loss.item()
+        _, predicted = outputs.max(1)
+        total += targets.size(0)
+        correct += predicted.eq(targets).sum().item()
 
-            progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
-                % (train_loss/(batch_idx+1), 100.*correct/total, correct, total))
-    
-        return train_loss/(batch_idx+1)
+        progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
+            % (train_loss/(batch_idx+1), 100.*correct/total, correct, total))
+
+    return train_loss/(batch_idx+1)
+
 best_acc = 0  
 def test(epoch):
     global best_acc
