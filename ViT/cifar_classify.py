@@ -15,9 +15,18 @@ transform = transforms.Compose(
 batch_size = 4
 
 trainset = torchvision.datasets.CIFAR10(root='/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/data', train=True,
-                                        download=True, transform=transform)
+                                        download=False, transform=transform)
+trainset = torch.utils.data.Subset(trainset, range(0,2000))
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
                                           shuffle=True)
+
+testset = torchvision.datasets.CIFAR10(root='/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/data', train=False,
+                                       download=False, transform=transform)
+
+testset = torch.utils.data.Subset(testset, range(0,500))                                      
+testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
+                                         shuffle=False)
+
 
 testset = torchvision.datasets.CIFAR10(root='/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/data', train=False,
                                        download=True, transform=transform)
