@@ -14,7 +14,7 @@ import csv
 from model2 import ViT
 from utils import progress_bar
 
-NUM_EPOCHS = 2
+NUM_EPOCHS = 20
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print("Running on", device)
@@ -135,7 +135,7 @@ def test(epoch):
               "optimizer": optimizer.state_dict()}
         if not os.path.isdir('/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/checkpoint'):
             os.mkdir('checkpoint')
-        torch.save(state, './home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/checkpoint'+'vit'+'-ckpt.t7')
+        torch.save(state, './home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/checkpoint/'+'vit'+'-ckpt.t7')
         best_acc = acc
     
     os.makedirs("/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/log", exist_ok=True)
