@@ -6,7 +6,7 @@ import numpy as np
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-from ViT.model import VisionTransformer
+from model import VisionTransformer
 
 transform = transforms.Compose(
     [transforms.ToTensor(),
@@ -14,15 +14,15 @@ transform = transforms.Compose(
 
 batch_size = 4
 
-trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
+trainset = torchvision.datasets.CIFAR10(root='/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/data', train=True,
                                         download=True, transform=transform)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
-                                          shuffle=True)[:10]
+                                          shuffle=True)
 
-testset = torchvision.datasets.CIFAR10(root='./data', train=False,
+testset = torchvision.datasets.CIFAR10(root='/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/data', train=False,
                                        download=True, transform=transform)
 testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
-                                         shuffle=False)[:10]
+                                         shuffle=False)
 
 classes = ('plane', 'car', 'bird', 'cat',
            'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
@@ -40,13 +40,13 @@ def imsave(img, name):
 
 
 # get some random training images
-dataiter = iter(trainloader)
-images, labels = next(dataiter)
+# dataiter = iter(trainloader)
+# images, labels = next(dataiter)
 
 # show images
 # imsave(torchvision.utils.make_grid(images), "./test.jpg")
 # print labels
-print(' '.join(f'{classes[labels[j]]:5s}' for j in range(batch_size)))
+# print(' '.join(f'{classes[labels[j]]:5s}' for j in range(batch_size)))
 
 vit = VisionTransformer(img_size=32, patch_size=2, n_classes=10, depth=6, n_heads=6, p=0.1, attn_p=0.1)
 criterion = nn.CrossEntropyLoss()
@@ -75,5 +75,5 @@ for epoch in range(1):  # loop over the dataset multiple times
 
 print('Finished Training')
 
-PATH = './cifar_vit.pth'
+PATH = '/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/cifar_vit.pth'
 torch.save(vit.state_dict(), PATH)
