@@ -2,7 +2,7 @@
 #PBS -N vit
 #PBS -o out.log
 #PBS -e err.log
-#PBS -l ncpus=50
+#PBS -l ncpus=90
 #PBS -q gpu
 
 rm /home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/out.log

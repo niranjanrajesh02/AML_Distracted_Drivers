@@ -141,7 +141,7 @@ def test(epoch):
     os.makedirs("/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/log", exist_ok=True)
     content = time.ctime() + ' ' + f'Epoch {epoch}, lr: {optimizer.param_groups[0]["lr"]:.7f}, val loss: {test_loss:.5f}, acc: {(acc):.5f}'
     print(content)
-    with open(f'log/log_vit.txt', 'a') as appender:
+    with open(f'/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/log/log_vit.txt', 'a') as appender:
         appender.write(content + "\n")
     return test_loss, acc
 
@@ -166,7 +166,7 @@ for epoch in range(NUM_EPOCHS):
     
 
     # Write out csv..
-    with open(f'log/log_vit.csv', 'w') as f:
+    with open(f'/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/log/log_vit.csv', 'w') as f:
         writer = csv.writer(f, lineterminator='\n')
         writer.writerow(list_loss) 
         writer.writerow(list_acc) 
