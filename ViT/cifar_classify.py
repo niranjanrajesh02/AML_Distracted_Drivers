@@ -8,6 +8,8 @@ import torch.nn.functional as F
 import torch.optim as optim
 from model import VisionTransformer
 
+device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+
 transform = transforms.Compose(
     [transforms.ToTensor(),
      transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
@@ -60,13 +62,14 @@ def imsave(img, name):
 vit = VisionTransformer(img_size=32, patch_size=2, n_classes=10, depth=6, n_heads=6, p=0.1, attn_p=0.1)
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(vit.parameters())
+vit.to(device)
 
 for epoch in range(1):  # loop over the dataset multiple times
     running_loss = 0.0
     for i, data in enumerate(trainloader, 0):
         # get the inputs; data is a list of [inputs, labels]
         inputs, labels = data
-
+        inputs, labels = data[0].to(device), data[1].to(device)
         # zero the parameter gradients
         optimizer.zero_grad()
 
