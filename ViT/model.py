@@ -42,13 +42,11 @@ class Attention(nn.Module):
 
   # x : (n_samples, n_patches + 1, dim)
   def forward(self, x):
-    print(x.shape)
     n_samples, n_tokens, dim = x.shape
     if dim != self.dim:
         raise ValueError
 
     qkv = self.qkv(x)  # (n_samples, n_patches + 1, 3 * dim)  
-    print(qkv.shape)
     qkv = qkv.reshape(n_samples, n_tokens, 3, self.n_heads, self.head_dim)  # (n_samples, n_patches + 1, 3, n_heads, head_dim)
     qkv = qkv.permute(2, 0, 3, 1, 4)  # (3, n_samples, n_heads, n_patches + 1, head_dim)
 

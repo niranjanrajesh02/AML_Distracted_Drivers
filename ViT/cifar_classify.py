@@ -16,7 +16,7 @@ batch_size = 4
 
 trainset = torchvision.datasets.CIFAR10(root='/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/data', train=True,
                                         download=False, transform=transform)
-trainset = torch.utils.data.Subset(trainset, range(0,2000))
+trainset = torch.utils.data.Subset(trainset, range(0,10000))
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
                                           shuffle=True)
 
@@ -86,3 +86,19 @@ print('Finished Training')
 
 PATH = '/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/cifar_vit.pth'
 torch.save(vit.state_dict(), PATH)
+
+# TEST
+correct = 0
+total = 0
+# since we're not training, we don't need to calculate the gradients for our outputs
+with torch.no_grad():
+    for data in testloader:
+        images, labels = data
+        # calculate outputs by running images through the network
+        outputs = vit(images)
+        # the class with the highest energy is what we choose as prediction
+        _, predicted = torch.max(outputs.data, 1)
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()
+
+print(f'Accuracy of the network on test images: {100 * correct // total} %')
