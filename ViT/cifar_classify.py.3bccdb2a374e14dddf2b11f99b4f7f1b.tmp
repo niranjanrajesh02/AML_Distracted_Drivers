@@ -95,7 +95,7 @@ for epoch in range(10):  # loop over the dataset multiple times
 
 print('Finished Training')
 
-PATH = '/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/cifar_vit.pth'
+PATH = '/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/ViT/cifar_vit.pth'
 torch.save(vit.state_dict(), PATH)
 
 # TEST
