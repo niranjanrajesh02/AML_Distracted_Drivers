@@ -5,7 +5,7 @@ import os
 from tensorflow import keras 
 from model import create_model
 from utils import plot_loss, plot_accuracy
-
+from keras.utils import image_dataset_from_directory
 DATA_PATH = '/storage/niranjan.rajesh_ug23/aml/aug/all'
 
 model = create_model()
