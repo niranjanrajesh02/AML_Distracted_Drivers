@@ -66,17 +66,47 @@ if __name__ == "__main__":
         
         if not os.path.exists(ALL_PATH):
             os.makedirs(ALL_PATH)
+    
+        for i in tqdm(range(len(X_train))):
+            index = X_train[i].index("img_")
+            f_name = X_train[i][index:]
+            train_path = os.path.join(ALL_PATH, "train")
+            if not os.path.exists(train_path):
+                os.makedirs(train_path)
+                
+            img = cv2.imread(X_train[i])
+            img = cv2.resize(img, (224, 224))
+            label = y_train[i]
+            class_path = os.path.join(train_path, label)
+            if not os.path.exists(class_path):
+                os.makedirs(class_path)
+                
+            if i % 4 == 0:
+                aug_img = apply_random_occlusion(img)
+            elif i % 4 == 1:
+                aug_img = apply_random_perspective_transform(img)
+            elif i % 4 == 2:
+                aug_img = apply_random_brightness(img)
+            else:
+                aug_img = apply_random_gaussian_blur(img)
+                
+            cv2.imwrite(os.path.join(class_path, f"{f_name}_aug.jpg"), aug_img)
+
         for i in tqdm(range(len(X_valid))):
             index = X_valid[i].index("img_")
             f_name = X_valid[i][index:]
-            
-            # print(f"Occluding {f_name}")
+            test_path = os.path.join(ALL_PATH, "test")
+            if not os.path.exists(test_path):
+                os.makedirs(test_path)
+                
             img = cv2.imread(X_valid[i])
             img = cv2.resize(img, (224, 224))
             label = y_valid[i]
-            class_path = os.path.join(ALL_PATH, label)
+            class_path = os.path.join(test_path, label)
+            
             if not os.path.exists(class_path):
                 os.makedirs(class_path)
+                
             if i % 4 == 0:
                 aug_img = apply_random_occlusion(img)
             elif i % 4 == 1:
@@ -88,6 +118,7 @@ if __name__ == "__main__":
                 
             cv2.imwrite(os.path.join(class_path, f"{f_name}_aug.jpg"), aug_img)
     
+
     if (args.augment == 'perspective'):
         PERS_PATH = os.path.join(AUG_DIRECTORY, "perspective")
         if not os.path.exists(PERS_PATH):
