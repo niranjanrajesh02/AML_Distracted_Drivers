@@ -24,7 +24,7 @@ def preprocess(image, label):
 train_data = train_data.map(preprocess)
 valid_data = valid_data.map(preprocess)
 
-
+batch_size = 40
 
 es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=3)
 callbacks = [es]
