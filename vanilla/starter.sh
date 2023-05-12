@@ -1,5 +1,5 @@
 #! /bin/bash
-#PBS -N augtrainvanilla
+#PBS -N augtestvanilla
 #PBS -o out.log
 #PBS -e err.log
 #PBS -l ncpus=90

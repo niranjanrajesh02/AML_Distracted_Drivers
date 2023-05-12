@@ -4,9 +4,9 @@ import os
 from keras.utils import image_dataset_from_directory
 import numpy as np
 
-aug_data = "C:/Niranjan/Ashoka/Semester 6/AML/FinalProject/Data/aug"
+aug_data = "/storage/niranjan.rajesh_ug23/aml/aug"
 
-test_model = tf.keras.models.load_model('C:/Niranjan/Ashoka/Semester 6/AML/FinalProject/AML_Distracted_Drivers/models/model_customcnn.h5', compile=False)
+test_model = tf.keras.models.load_model('/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/Results/augtrain_vanilla.h5', compile=False)
 test_model.compile(loss='categorical_crossentropy', optimizer='adam',metrics=['accuracy'])
 
 augments = ['blur', 'brightness', 'occlusion','perspective']
