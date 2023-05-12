@@ -20,7 +20,7 @@ for augment in augments:
     
         return gray_img, label
 
-    test_data = test_data.map(preprocess)
+    # test_data = test_data.map(preprocess)
 
     loss, acc = test_model.evaluate(test_data, verbose=2)
     print("AUGMENTATION:", augment)
