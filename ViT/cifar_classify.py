@@ -14,7 +14,7 @@ import csv
 from model2 import ViT
 from utils import progress_bar
 
-NUM_EPOCHS = 20
+NUM_EPOCHS = 200
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 print("Running on", device)
@@ -92,7 +92,7 @@ def train(n_epochs):
     total = 0
     for batch_idx, (inputs, targets) in enumerate(trainloader, 0):
         # get the inputs; data is a list of [inputs, labels]
-        inputs, labels = inputs.to(device), targets.to(device)
+        inputs, targets = inputs.to(device), targets.to(device)
         outputs = vit(inputs)
         loss = criterion(outputs, targets)
         loss.backward()
