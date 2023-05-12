@@ -10,6 +10,9 @@ from keras.callbacks import EarlyStopping
 DATA_PATH = '/storage/niranjan.rajesh_ug23/aml/aug/all'
 
 model = create_model()
+model.compile(loss='categorical_crossentropy',
+                         optimizer='adam',
+                         metrics=['accuracy'])
 
 train_data = image_dataset_from_directory(os.path.join(DATA_PATH, 'train'), labels='inferred', label_mode="categorical")
 valid_data = image_dataset_from_directory(os.path.join(DATA_PATH, 'test'), labels='inferred', label_mode="categorical")
