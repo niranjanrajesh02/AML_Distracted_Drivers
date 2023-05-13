@@ -7,15 +7,17 @@ from model import create_model
 from utils import plot_loss, plot_accuracy
 from keras.utils import image_dataset_from_directory
 from keras.callbacks import EarlyStopping
-DATA_PATH = '/storage/niranjan.rajesh_ug23/aml/aug/all'
+DATA_PATH = '/storage/niranjan.rajesh_ug23/aml/aug/hybrid'
 
 model = create_model()
 model.compile(loss='categorical_crossentropy',
-                         optimizer='adam',
+                         optimizer='rmsprop',
                          metrics=['accuracy'])
 
-train_data = image_dataset_from_directory(os.path.join(DATA_PATH, 'train'), labels='inferred', label_mode="categorical")
-valid_data = image_dataset_from_directory(os.path.join(DATA_PATH, 'test'), labels='inferred', label_mode="categorical")
+train_data = image_dataset_from_directory(os.path.join(DATA_PATH, 'train'), labels='inferred', label_mode="categorical", seed=42,
+                                          validation_split=0.2, subset='training')
+valid_data = image_dataset_from_directory(os.path.join(DATA_PATH, 'train'), labels='inferred', label_mode="categorical", seed=42,
+                                          validation_split=0.2, subset='validation')
 
 
 def preprocess(image, label):
@@ -36,4 +38,4 @@ history = model.fit(train_data, validation_data=valid_data, epochs=20, batch_siz
 
 plot_loss(history)
 plot_accuracy(history)
-model.save("/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/Results/augtrain_vanilla.h5")
+model.save("/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/models/augtrain_vanilla2.h5")
