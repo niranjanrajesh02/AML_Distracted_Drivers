@@ -24,7 +24,6 @@ def apply_random_perspective_transform(image):
 
    
     M = cv2.getPerspectiveTransform(src, dst)
-
     warped = cv2.warpPerspective(image, M, (width, height))
 
     return warped
