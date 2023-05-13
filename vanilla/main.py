@@ -7,7 +7,7 @@ from model import create_model
 from utils import plot_loss, plot_accuracy
 from keras.utils import image_dataset_from_directory
 from keras.callbacks import EarlyStopping
-DATA_PATH = '/storage/niranjan.rajesh_ug23/aml/aug/hybrid'
+DATA_PATH = '/storage/niranjan.rajesh_ug23/aml/hybrid'
 
 model = create_model()
 model.compile(loss='categorical_crossentropy',
