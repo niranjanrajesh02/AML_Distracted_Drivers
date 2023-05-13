@@ -25,7 +25,7 @@ args = parser.parse_args()
 DATA_DIRECTORY = "C:/Niranjan/Ashoka/Semester 6/AML/FinalProject/Data/imgs/train/"
 AUG_DIRECTORY = "C:/Niranjan/Ashoka/Semester 6/AML/FinalProject/Data/aug/"
 
-def load_train(img_rows, img_cols, color_type=3):
+def load_train(img_rows, img_cols, color_type=3, variant='data'):
     """
     Return train images and train labels from the original path
     """
@@ -34,17 +34,20 @@ def load_train(img_rows, img_cols, color_type=3):
     # Loop over the training folder 
     for classes in range(10):
         print('Loading directory c{}'.format(classes))
-        files = glob(DATA_DIRECTORY+ "c" + str(classes) + "/" +'*.jpg')
+        if variant == 'data':
+            files = glob(DATA_DIRECTORY+ "c" + str(classes) + "/" +'*.jpg')
+        elif variant == 'aug':
+            files = glob(AUG_DIRECTORY+ "all/train/" "c" + str(classes) + "/" +'*.jpg')
         for file in files:
           train_images.append(file)
           train_labels.append(f'c{classes}')
     return train_images, train_labels 
 
-def read_and_normalize_train_data(img_rows, img_cols, color_type):
+def read_and_normalize_train_data(img_rows, img_cols, color_type, variant="data"):
     """
     Load + categorical + split
     """
-    X, labels = load_train(img_rows, img_cols, color_type)
+    X, labels = load_train(img_rows, img_cols, color_type, variant=variant)
     # y = np_utils.to_categorical(labels, 10) #categorical train label
     X_train, X_valid, y_train, y_valid = train_test_split(X, labels, test_size=0.2, random_state=42) # split into train and test
     
@@ -117,7 +120,6 @@ if __name__ == "__main__":
                 aug_img = apply_random_gaussian_blur(img)
                 
             cv2.imwrite(os.path.join(class_path, f"{f_name}_aug.jpg"), aug_img)
-    
 
     if (args.augment == 'perspective'):
         PERS_PATH = os.path.join(AUG_DIRECTORY, "perspective")
@@ -198,3 +200,44 @@ if __name__ == "__main__":
             
             blurred_img = apply_random_gaussian_blur(img)
             cv2.imwrite(os.path.join(class_path, f"{f_name}_bl.jpg"), blurred_img)
+            
+    if (args.augment == "hybrid"):
+        HYBRID_PATH = os.path.join(AUG_DIRECTORY, "hybrid")
+        
+        aug_X_train, _, aug_y_train, _ = read_and_normalize_train_data(224, 224, 3, 'aug')
+        
+        
+        if not os.path.exists(HYBRID_PATH):
+            os.makedirs(HYBRID_PATH)
+            
+        for i in tqdm(range(len(X_train))):
+            index = X_train[i].index("img_")
+            f_name = X_train[i][index:]
+            train_path = os.path.join(HYBRID_PATH, "train")
+            if not os.path.exists(train_path):
+                os.makedirs(train_path)
+                
+            img = cv2.imread(X_train[i])
+            img = cv2.resize(img, (224, 224))
+            label = y_train[i]
+            class_path = os.path.join(train_path, label)
+            if not os.path.exists(class_path):
+                os.makedirs(class_path)
+
+            cv2.imwrite(os.path.join(class_path, f"{f_name}.jpg"), img)
+            
+        for i in tqdm(range(len(aug_X_train))):
+            index = aug_X_train[i].index("img_")
+            f_name = aug_X_train[i][index:]
+            train_path = os.path.join(HYBRID_PATH, "train")
+            if not os.path.exists(train_path):
+                os.makedirs(train_path)
+                
+            img = cv2.imread(aug_X_train[i])
+            img = cv2.resize(img, (224, 224))
+            label = aug_y_train[i]
+            class_path = os.path.join(train_path, label)
+            if not os.path.exists(class_path):
+                os.makedirs(class_path)
+
+            cv2.imwrite(os.path.join(class_path, f"{f_name}_aug.jpg"), img)
