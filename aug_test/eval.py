@@ -7,7 +7,7 @@ import numpy as np
 aug_data = "/storage/niranjan.rajesh_ug23/aml/aug"
 model_path = '/home/niranjan.rajesh_ug23/AML/AML_Distracted_Drivers/models'
 
-models_to_eval = ['mobilenetmodel.h5', 'mobilenetmodel_pretrained.h5']
+models_to_eval = ['mobilenetmodel.h5', 'mobilenetmodel_pretrained.h5', 'mobile_customcnn.h5']
 
 for model_name in models_to_eval:
 
